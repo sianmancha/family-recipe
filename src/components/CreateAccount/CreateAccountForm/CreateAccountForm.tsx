@@ -1,34 +1,29 @@
 import React from "react";
 import {Formik, Form, Field} from 'formik'
 
+interface Props {
+    onClose: () => void
+}
 
-export function CreateAccountForm() {
+export function CreateAccountForm({onClose}: Props) {
     return (
         <div>
             <Formik
-                initialValues={{firstName: '', lastName: '', email: '', password: '', confirmPassword: ''}}
-                onSubmit={() => {}}
+                initialValues={{name: '', email: '', password: '', confirmPassword: ''}}
+                onSubmit={() => {console.log('Submitted!')}}
             >
                 {({values, touched, handleChange, handleBlur, handleSubmit}) => (
                     <Form onSubmit={handleSubmit}>
                         <Field 
                             className='border-2'
                             type="text"
-                            name="firstName"
+                            name="name"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.firstName}
-                            placeholder='First Name'
+                            value={values.name}
+                            placeholder='Name'
                         />
-                        <Field 
-                            className='border-2'
-                            type="text"
-                            name="lastName"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.lastName}
-                            placeholder='Last Name'
-                        />
+                       
                         <Field 
                             className='border-2'
                             type="email"
@@ -57,7 +52,7 @@ export function CreateAccountForm() {
                             placeholder='Confirm Password'
                         />
                         <button type="submit">Create Account</button>
-                        <button>Cancel</button>
+                        <button onClick={onClose}>Cancel</button>
                     </Form>
                 )}
             </Formik>

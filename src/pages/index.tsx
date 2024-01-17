@@ -1,11 +1,11 @@
 import React from "react"
-import { CreateAccountForm } from "@/components/CreateAccount"
+import { CreateAccountModal } from "@/components/CreateAccount/CreateAccountModal"
 
 export default function Home() {
   return (
     <div>
       Home
-      <CreateAccountForm />
+      <CreateAccountModal />
     </div>
   )
 }
