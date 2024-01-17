@@ -2,10 +2,9 @@ import React from "react";
 import {Formik, Form, Field} from 'formik'
 
 
-export function CreateAccount() {
+export function CreateAccountForm() {
     return (
         <div>
-            CreateAccount
             <Formik
                 initialValues={{firstName: '', lastName: '', email: '', password: '', confirmPassword: ''}}
                 onSubmit={() => {}}
