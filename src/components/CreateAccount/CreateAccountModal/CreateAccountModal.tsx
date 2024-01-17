@@ -14,7 +14,7 @@ export function CreateAccountModal() {
     
     return (
         <div>
-            <button onClick={openModal}>CreateAccountModal</button>
+            <button onClick={openModal}>Create Account</button>
             {isModalOpen ? <CreateAccountForm onClose={closeModal}/> : null}
         </div>
     )
