@@ -2,11 +2,37 @@ import React from "react";
 import { CreateAccountModal } from "../CreateAccount/CreateAccountModal";
 import {Formik, Form, Field} from 'formik'
 
+interface Values {
+    email: string,
+    password: string,
+}
+
 export function LoginForm() {
+    const handleLogin = async (values: Values) => {
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                console.log("Login Successful");
+            } else {
+                console.error("Login failed:", data.error);
+            }
+        } catch (error) {
+            console.error("Error:", error)
+        }
+    }
+
     return(
         <div>
             LoginForm
-            <Formik initialValues={{email: '', password: ''}} onSubmit={() => {'Submitted Login Info!'}}>
+            <Formik initialValues={{email: '', password: ''}} onSubmit={handleLogin}>
                 {({values, touched, handleChange, handleBlur, handleSubmit}) => (
                     <Form>
                         <Field
@@ -20,7 +46,7 @@ export function LoginForm() {
                         />
                         <Field
                             className='border-2'
-                            type='text'
+                            type='password'
                             name='password'
                             onChange={handleChange}
                             onBlur={handleBlur}
