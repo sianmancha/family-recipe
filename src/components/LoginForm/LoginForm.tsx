@@ -1,6 +1,7 @@
 import React from "react";
 import { CreateAccountModal } from "../CreateAccount/CreateAccountModal";
 import {Formik, Form, Field} from 'formik'
+import { signIn } from "next-auth/react";
 
 interface Values {
     email: string,
@@ -10,19 +11,16 @@ interface Values {
 export function LoginForm() {
     const handleLogin = async (values: Values) => {
         try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
+            const response = await signIn('credentials', {
+                redirect: false,
+                username:values.email,
+                password: values.password,
             });
-            const data = await response.json();
 
-            if (data.success) {
-                console.log("Login Successful");
+            if(response?.error) {
+                console.error('Login failed:, response.error');
             } else {
-                console.error("Login failed:", data.error);
+                console.log('Login Successful');
             }
         } catch (error) {
             console.error("Error:", error)
@@ -54,7 +52,6 @@ export function LoginForm() {
                             placeholder='Password'
                         />
                         <button type='submit'>Sign In</button>
-                        <CreateAccountModal />
                     </Form>
                 )}
             </Formik>

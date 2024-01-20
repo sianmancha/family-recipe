@@ -18,20 +18,20 @@ export default NextAuth({
         username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' }
       },
-      authorize: async (credentials) => {
+      authorize: async (credentials, req) => {
         try {
             if (!credentials || !credentials.username || !credentials.password) {
               return Promise.resolve(null);
             }
         
             const connection = await connect();
-            const usersCollection = connection.db().collection('users');
+            const usersCollection = connection.db('family-recipes').collection('users');
         
             const existingUser = await usersCollection.findOne({ email: credentials.username });
         
             if (!existingUser) {
               const newUser = {
-                name: credentials.username,
+                name: req.body && req.body.name ? req.body.name : '',
                 email: credentials.username,
                 password: credentials.password,
               };

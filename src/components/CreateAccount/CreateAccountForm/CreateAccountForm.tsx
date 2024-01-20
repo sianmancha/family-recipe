@@ -1,5 +1,6 @@
 import React from "react";
 import {Formik, Form, Field} from 'formik'
+import { signIn } from "next-auth/react";
 
 interface Values {
     name: string
@@ -14,19 +15,18 @@ interface Props {
 export function CreateAccountForm({onClose}: Props) {
     const handleCreateAccount = async (values: Values) => {
         try {
-            const response = await fetch ('api/auth/create-account', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
+            const response = await signIn('credentials', {
+                redirect: false,
+                username: values.email,
+                password: values.password,
+                name: values.name
             });
-            const data = await response.json();
 
-            if (data.success) {
-                console.log('Account Created Successfully');
+            if(response?.error) {
+                console.log('Account Creation failed:', response.error);
             } else {
-                console.error('Account creating failed');
+                console.log('Account created successfully');
+                onClose();
             }
         } catch (error) {
             console.log('Error:', error);
