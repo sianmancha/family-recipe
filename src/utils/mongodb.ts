@@ -8,19 +8,29 @@ let client: MongoClient | undefined;
 let connection: Db | undefined;
 
 async function connect() {
-    if (!client && uri) {
+    try {
+       if(!client && uri) {
         client = new MongoClient(uri, options);
         await client.connect();
         connection = client.db();
+       } 
+    } catch (error) {
+        console.error('Error during MongoDB connection:', error);
+        throw error;
     }
-    return client!;
+    return connection!;
 }
 
 async function disconnect() {
-    if (client) {
-        await client.close();
-        client = undefined;
-        connection = undefined;
+    try {
+        if (client) {
+            await client.close();
+            client = undefined;
+            connection = undefined;
+        } 
+    } catch (error) {
+        console.error('Error during MongoDB disconnection:', error);
+        throw error;
     }
 }
 

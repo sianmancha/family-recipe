@@ -26,7 +26,7 @@ export default NextAuth({
             }
         
             connection = await connect();
-            const usersCollection = connection.db('family-recipes').collection('users');
+            const usersCollection = connection.collection('users');
         
             const existingUser = await usersCollection.findOne({ email: credentials.username });
         
