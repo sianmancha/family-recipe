@@ -2,6 +2,7 @@ import React from "react";
 import {Formik, Form, Field} from 'formik'
 import { signIn } from "next-auth/react";
 import * as Yup from 'yup'
+import { useRouter } from "next/router";
 
 interface Values {
     email: string,
@@ -14,6 +15,8 @@ const LoginSchema = Yup.object().shape({
 }); 
 
 export function LoginForm() {
+    const router = useRouter();
+    
     const handleLogin = async (values: Values) => {
         try {
             const response = await signIn('credentials', {
@@ -26,6 +29,7 @@ export function LoginForm() {
                 console.error('Login failed:, response.error');
             } else {
                 console.log('Login Successful');
+                router.push('/profile')
             }
         } catch (error) {
             console.error("Error:", error)

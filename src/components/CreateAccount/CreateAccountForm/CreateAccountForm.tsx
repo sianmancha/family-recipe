@@ -2,6 +2,7 @@ import React from "react";
 import {Formik, Form, Field} from 'formik'
 import { signIn } from "next-auth/react";
 import * as Yup from 'yup';
+import { useRouter } from "next/router";
 
 interface Values {
     name: string
@@ -21,6 +22,8 @@ const SignUpSchema = Yup.object().shape({
 })
 
 export function CreateAccountForm({onClose}: Props) {
+    const router = useRouter();
+
     const handleCreateAccount = async (values: Values) => {
         try {
             const response = await signIn('credentials', {
@@ -35,6 +38,7 @@ export function CreateAccountForm({onClose}: Props) {
             } else {
                 console.log('Account created successfully');
                 onClose();
+                router.push('/profile')
             }
         } catch (error) {
             console.log('Error:', error);

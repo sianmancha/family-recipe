@@ -79,5 +79,8 @@ export default NextAuth({
       session.user = token;
       return session;
     },
+    async redirect({ baseUrl }) {
+      return baseUrl + '/profile'
+    }
   },
 });
