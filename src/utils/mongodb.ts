@@ -22,6 +22,7 @@ async function connect() {
 
 async function disconnect() {
     try {
+        console.log('Disconnecting from MongoDB...');
         if (client instanceof MongoClient) {
             await client.close();
             client = undefined;
