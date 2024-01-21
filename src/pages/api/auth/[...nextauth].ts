@@ -19,12 +19,13 @@ export default NextAuth({
         password: { label: 'Password', type: 'password' }
       },
       authorize: async (credentials, req) => {
+        let connection;
         try {
             if (!credentials || !credentials.username || !credentials.password) {
               return Promise.resolve(null);
             }
         
-            const connection = await connect();
+            connection = await connect();
             const usersCollection = connection.db('family-recipes').collection('users');
         
             const existingUser = await usersCollection.findOne({ email: credentials.username });
@@ -61,6 +62,10 @@ export default NextAuth({
           } catch (error) {
             console.error('Error during authentication:', error);
             return Promise.resolve(null);
+          } finally {
+            if (connection) {
+              disconnect();
+            }
           }
       },
     }),
