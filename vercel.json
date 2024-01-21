@@ -1,0 +1,13 @@
+{
+    "routes": [
+      { "handle": "filesystem" },
+      {
+        "src": "/api/auth/[...nextauth]",
+        "methods": ["POST"],
+        "dest": "/api/auth/[...nextauth]"
+      },
+      { "src": "/api/(.*)", "dest": "/api/$1" },
+      { "src": "/(.*)", "dest": "/" }
+    ]
+  }
+  
