@@ -1,12 +1,17 @@
 import React from "react";
-import { CreateAccountModal } from "../CreateAccount/CreateAccountModal";
 import {Formik, Form, Field} from 'formik'
 import { signIn } from "next-auth/react";
+import * as Yup from 'yup'
 
 interface Values {
     email: string,
     password: string,
 }
+
+const LoginSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid Email').required('Email is Required'),
+    password: Yup.string().required('Password is Required')
+}); 
 
 export function LoginForm() {
     const handleLogin = async (values: Values) => {
@@ -30,9 +35,9 @@ export function LoginForm() {
     return(
         <div>
             LoginForm
-            <Formik initialValues={{email: '', password: ''}} onSubmit={handleLogin}>
-                {({values, touched, handleChange, handleBlur, handleSubmit}) => (
-                    <Form>
+            <Formik initialValues={{email: '', password: ''}} validationSchema={LoginSchema} onSubmit={handleLogin}>
+                {({values, touched, errors, handleChange, handleBlur, handleSubmit, isValid, dirty}) => (
+                    <Form onSubmit={handleSubmit}>
                         <Field
                             className='border-2'
                             type='email'
@@ -42,6 +47,9 @@ export function LoginForm() {
                             value={values.email}
                             placeholder='Email'
                         />
+                        {errors.email && touched.email ? (
+                            <div>{errors.email}</div>
+                        ) : null}
                         <Field
                             className='border-2'
                             type='password'
@@ -51,7 +59,10 @@ export function LoginForm() {
                             value={values.password}
                             placeholder='Password'
                         />
-                        <button type='submit'>Sign In</button>
+                        {errors.password && touched.password ? (
+                            <div>{errors.password}</div>
+                        ) : null}
+                        <button disabled={!isValid || !dirty} type='submit'>Sign In</button>
                     </Form>
                 )}
             </Formik>
