@@ -13,7 +13,7 @@ export function NavBar() {
     const isLandingPage = router.pathname === '/';
 
     return (
-        <nav>
+        <nav className="flex justify-end items-center bg-[#D4AC97] h-20 p-10 mb-10">
             {session ? (
                 <div>
                     <SignOutButton />
@@ -21,10 +21,10 @@ export function NavBar() {
             ): (
                 <div>
                     {isLandingPage && (
-                        <>
+                        <div className="flex gap-3">
                         <Link href='/login'>Login</Link>
                         <CreateAccountModal />
-                        </>
+                        </div>
                     )}
                     {isLoginPage && (
                         <Link href='/'>Home</Link>
