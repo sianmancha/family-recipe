@@ -1,6 +1,7 @@
 import { getSession, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { SignOutButton } from '@/components/SignOut';
 
 export default function Profile() {
     const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +30,7 @@ export default function Profile() {
 
     return (
         <div>
+            <SignOutButton />
             <h1>Welcome, {userName}!</h1>
         </div>
     )
