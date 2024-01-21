@@ -2,7 +2,6 @@
 import { MongoClient, Db, MongoClientOptions } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
-const options: MongoClientOptions = {};
 
 let client: MongoClient | undefined;
 let connection: Db | undefined;
@@ -10,7 +9,7 @@ let connection: Db | undefined;
 async function connect() {
     try {
        if(!client && uri) {
-        client = new MongoClient(uri, options);
+        client = new MongoClient(uri);
         await client.connect();
         connection = client.db();
        } 
@@ -23,7 +22,7 @@ async function connect() {
 
 async function disconnect() {
     try {
-        if (client) {
+        if (client instanceof MongoClient) {
             await client.close();
             client = undefined;
             connection = undefined;
