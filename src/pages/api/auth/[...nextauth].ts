@@ -83,4 +83,5 @@ export default NextAuth({
       return baseUrl + '/profile'
     }
   },
+  secret: process.env.NEXTAUTH_SECRET,
 });
